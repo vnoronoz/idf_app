@@ -52,7 +52,7 @@ df_data_cuenca = pd.read_excel(data_file, header = 0, sheet_name = 'Cuencas', en
 df_data_cuenca['Fecha'] = pd.to_datetime(df_data_cuenca['Fecha'], format='%Y-%m-%d').dt.date
 
 # Archivo datos nuevos para comparar
-df_new_data = pd.read_excel(r'N:\02 Acciones\C2.4 SAD\Accion2.4.3-SAD\11 ResumenHistoricos\idf_app\data\Importar.xlsx', header = 0, index_col = 0, engine='openpyxl')
+df_new_data = pd.read_excel(import_file, header = 0, index_col = 0, engine='openpyxl')
 
 
 # --- LISTADOS OPCIONES A ELEGIR
