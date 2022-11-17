@@ -41,18 +41,18 @@ import_file = os.path.join(data_dirname,'Importar.xlsx')
 # --- LOAD DATA
 
 # Archivo codigos cuencas SAD
-df_codes = pd.read_excel(codes_file, header = 0)
+df_codes = pd.read_excel(codes_file, header = 0, engine='openpyxl')
 dict_codes = dict(zip(df_codes.COD_SAD, df_codes.CUENCA))
 
 # Archivo recopilacion episodios historicos
-df_data_pluvio = pd.read_excel(data_file, header = 0, sheet_name = 'Pluviometros')
+df_data_pluvio = pd.read_excel(data_file, header = 0, sheet_name = 'Pluviometros', engine='openpyxl')
 df_data_pluvio['Fecha'] = pd.to_datetime(df_data_pluvio['Fecha'], format='%Y-%m-%d').dt.date
 
-df_data_cuenca = pd.read_excel(data_file, header = 0, sheet_name = 'Cuencas')
+df_data_cuenca = pd.read_excel(data_file, header = 0, sheet_name = 'Cuencas', engine='openpyxl')
 df_data_cuenca['Fecha'] = pd.to_datetime(df_data_cuenca['Fecha'], format='%Y-%m-%d').dt.date
 
 # Archivo datos nuevos para comparar
-df_new_data = pd.read_excel(import_file, header = 0, index_col = 0)
+df_new_data = pd.read_excel(import_file, header = 0, index_col = 0, engine='openpyxl')
 
 
 # --- LISTADOS OPCIONES A ELEGIR
