@@ -36,7 +36,6 @@ data_dirname = os.path.join(dirname,'data')
 #codes_file = os.path.join(codes_dirname,'SAD_Cuencas.xlsx')
 codes_file = os.path.join(codes_dirname,'SAD_Cuencas_Planes.xlsx')
 data_file = os.path.join(data_dirname,'Resumen_historico.xlsx')
-import_file = os.path.join(data_dirname,'Importar.xlsx')
 
 # --- LOAD DATA
 
@@ -50,9 +49,6 @@ df_data_pluvio['Fecha'] = pd.to_datetime(df_data_pluvio['Fecha'], format='%Y-%m-
 
 df_data_cuenca = pd.read_excel(data_file, header = 0, sheet_name = 'Cuencas', engine='openpyxl')
 df_data_cuenca['Fecha'] = pd.to_datetime(df_data_cuenca['Fecha'], format='%Y-%m-%d').dt.date
-
-# Archivo datos nuevos para comparar
-df_new_data = pd.read_excel(import_file, header = 0, index_col = 0, engine='openpyxl')
 
 
 # --- LISTADOS OPCIONES A ELEGIR
@@ -279,23 +275,32 @@ if pluvio_dates or basin_dates:
         fig.update_layout(plot_bgcolor = "white")
     
 
-    if st.button('AÑADIR DATOS'):
+    st.write('AÑADIR DATOS:')
         
-        df_new_data.rename(index={'PP max. 10 min (mm)': 0.167,
-                    'PP max. 30 min (mm)': 0.5,
-                     'PP max. 1 h (mm)': 1,
-                     'PP max. 3 h (mm)': 3,
-                     'PP max. 4 h (mm)': 4,
-                     'PP max. 6 h (mm)': 6, 
-                     'PP max. 12 h (mm)': 12,
-                     'PP max. 24 h (mm)': 24}, inplace=True)
-        df_new_data['Duracion (h)']=df_new_data.index
-        df_new_data = pd.melt(df_new_data, id_vars='Duracion (h)', value_vars=df_new_data.columns[:-1], var_name='Evento', value_name='Intensidad PP (mm)')
-        df_new_data['Evento'] = pd.to_datetime(df_new_data['Evento'], format='%Y-%m-%d').dt.date
-        df_new_data['Evento'] = df_new_data['Evento'].astype(str)
-        fig.add_traces(
-            list(px.line(df_new_data, x='Duracion (h)', y='Intensidad PP (mm)', color='Evento').select_traces())
-            )
+    uploaded_file = st.file_uploader('Elige un archivo')
+    
+    if uploaded_file is not None:    
+                   
+            
+            df_new_data = pd.read_excel(uploaded_file, header = 0, index_col = 0)
+                                    
+            df_new_data.rename(index={'PP max. 10 min (mm)': 0.167,
+                        'PP max. 30 min (mm)': 0.5,
+                         'PP max. 1 h (mm)': 1,
+                         'PP max. 3 h (mm)': 3,
+                         'PP max. 4 h (mm)': 4,
+                         'PP max. 6 h (mm)': 6, 
+                         'PP max. 12 h (mm)': 12,
+                         'PP max. 24 h (mm)': 24}, inplace=True)
+            df_new_data['Duracion (h)']=df_new_data.index
+            df_new_data = pd.melt(df_new_data, id_vars='Duracion (h)', value_vars=df_new_data.columns[:-1], var_name='Evento', value_name='Intensidad PP (mm)')
+            df_new_data['Evento'] = pd.to_datetime(df_new_data['Evento'], format='%Y-%m-%d').dt.date
+            df_new_data['Evento'] = df_new_data['Evento'].astype(str)
+            print(df_new_data)
+            
+            fig.add_traces(
+                list(px.line(df_new_data, x='Duracion (h)', y='Intensidad PP (mm)', color='Evento').select_traces())
+                )
         
     # --- STREAMLIT CHART
     
