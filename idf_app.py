@@ -302,8 +302,8 @@ if pluvio_dates or basin_dates:
                 fig.add_traces(
                     list(px.line(df_new_data, x='Duracion (h)', y='Intensidad PP (mm)', color='Evento').select_traces())
                     )
-                except:
-                    pass
+             except:
+                pass
         
     # --- STREAMLIT CHART
     
