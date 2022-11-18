@@ -283,8 +283,7 @@ if pluvio_dates or basin_dates:
                    
             try:
                 df_new_data = pd.read_excel(uploaded_file, header = 0, index_col = 0)
-                # Borrar la columna Unnamed si existe
-                df_new_data = df_new_data.loc[:, ~df_new_data.columns.str.startswith('Unnamed')]  
+                
                 df_new_data.rename(index={'PP max. 10 min (mm)': 0.167,
                             'PP max. 30 min (mm)': 0.5,
                              'PP max. 1 h (mm)': 1,
@@ -296,6 +295,8 @@ if pluvio_dates or basin_dates:
                              'PP max. 48 h (mm)': 48}, inplace=True)
                 df_new_data['Duracion (h)']=df_new_data.index
                 df_new_data = pd.melt(df_new_data, id_vars='Duracion (h)', value_vars=df_new_data.columns[:-1], var_name='Evento', value_name='Intensidad PP (mm)')
+                # Borrar la columna Unnamed si existe
+                df_new_data = df_new_data.loc[:, ~df_new_data.columns.str.startswith('Unnamed')]
                 df_new_data['Evento'] = pd.to_datetime(df_new_data['Evento'], format='%Y-%m-%d').dt.date
                 df_new_data['Evento'] = df_new_data['Evento'].astype(str)
                 print(df_new_data)
