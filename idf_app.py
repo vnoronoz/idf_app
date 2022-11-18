@@ -281,27 +281,29 @@ if pluvio_dates or basin_dates:
     
     if uploaded_file is not None:    
                    
-            
-            df_new_data = pd.read_excel(uploaded_file, header = 0, index_col = 0)
-                                    
-            df_new_data.rename(index={'PP max. 10 min (mm)': 0.167,
-                        'PP max. 30 min (mm)': 0.5,
-                         'PP max. 1 h (mm)': 1,
-                         'PP max. 3 h (mm)': 3,
-                         'PP max. 4 h (mm)': 4,
-                         'PP max. 6 h (mm)': 6, 
-                         'PP max. 12 h (mm)': 12,
-                         'PP max. 24 h (mm)': 24,
-                         'PP max. 48 h (mm)': 48}, inplace=True)
-            df_new_data['Duracion (h)']=df_new_data.index
-            df_new_data = pd.melt(df_new_data, id_vars='Duracion (h)', value_vars=df_new_data.columns[:-1], var_name='Evento', value_name='Intensidad PP (mm)')
-            df_new_data['Evento'] = pd.to_datetime(df_new_data['Evento'], format='%Y-%m-%d').dt.date
-            df_new_data['Evento'] = df_new_data['Evento'].astype(str)
-            print(df_new_data)
-            
-            fig.add_traces(
-                list(px.line(df_new_data, x='Duracion (h)', y='Intensidad PP (mm)', color='Evento').select_traces())
-                )
+            try:
+                df_new_data = pd.read_excel(uploaded_file, header = 0, index_col = 0)
+
+                df_new_data.rename(index={'PP max. 10 min (mm)': 0.167,
+                            'PP max. 30 min (mm)': 0.5,
+                             'PP max. 1 h (mm)': 1,
+                             'PP max. 3 h (mm)': 3,
+                             'PP max. 4 h (mm)': 4,
+                             'PP max. 6 h (mm)': 6, 
+                             'PP max. 12 h (mm)': 12,
+                             'PP max. 24 h (mm)': 24,
+                             'PP max. 48 h (mm)': 48}, inplace=True)
+                df_new_data['Duracion (h)']=df_new_data.index
+                df_new_data = pd.melt(df_new_data, id_vars='Duracion (h)', value_vars=df_new_data.columns[:-1], var_name='Evento', value_name='Intensidad PP (mm)')
+                df_new_data['Evento'] = pd.to_datetime(df_new_data['Evento'], format='%Y-%m-%d').dt.date
+                df_new_data['Evento'] = df_new_data['Evento'].astype(str)
+                print(df_new_data)
+
+                fig.add_traces(
+                    list(px.line(df_new_data, x='Duracion (h)', y='Intensidad PP (mm)', color='Evento').select_traces())
+                    )
+                except:
+                    pass
         
     # --- STREAMLIT CHART
     
