@@ -291,7 +291,8 @@ if pluvio_dates or basin_dates:
                          'PP max. 4 h (mm)': 4,
                          'PP max. 6 h (mm)': 6, 
                          'PP max. 12 h (mm)': 12,
-                         'PP max. 24 h (mm)': 24}, inplace=True)
+                         'PP max. 24 h (mm)': 24,
+                         'PP max. 48 h (mm)': 48}, inplace=True)
             df_new_data['Duracion (h)']=df_new_data.index
             df_new_data = pd.melt(df_new_data, id_vars='Duracion (h)', value_vars=df_new_data.columns[:-1], var_name='Evento', value_name='Intensidad PP (mm)')
             df_new_data['Evento'] = pd.to_datetime(df_new_data['Evento'], format='%Y-%m-%d').dt.date
