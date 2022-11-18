@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+ -*- coding: utf-8 -*-
 """
 Created on Tue Sep 27 13:54:37 2022
 
@@ -302,7 +302,7 @@ if pluvio_dates or basin_dates:
                 fig.add_traces(
                     list(px.line(df_new_data, x='Duracion (h)', y='Intensidad PP (mm)', color='Evento').select_traces())
                     )
-             except:
+            except:
                 pass
         
     # --- STREAMLIT CHART
