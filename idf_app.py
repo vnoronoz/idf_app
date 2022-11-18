@@ -281,9 +281,9 @@ if pluvio_dates or basin_dates:
     
     if uploaded_file is not None:    
                    
-            try:
+            #try:
                 df_new_data = pd.read_excel(uploaded_file, header = 0, index_col = 0)
-                
+                print(df_new_data)
                 df_new_data.rename(index={'PP max. 10 min (mm)': 0.167,
                             'PP max. 30 min (mm)': 0.5,
                              'PP max. 1 h (mm)': 1,
@@ -295,8 +295,10 @@ if pluvio_dates or basin_dates:
                              'PP max. 48 h (mm)': 48}, inplace=True)
                 df_new_data['Duracion (h)']=df_new_data.index
                 df_new_data = pd.melt(df_new_data, id_vars='Duracion (h)', value_vars=df_new_data.columns[:-1], var_name='Evento', value_name='Intensidad PP (mm)')
+                print(df_new_data)
                 # Borrar la columna Unnamed si existe
                 df_new_data = df_new_data.loc[:, ~df_new_data.columns.str.startswith('Unnamed')]
+                print(df_new_data)
                 df_new_data['Evento'] = pd.to_datetime(df_new_data['Evento'], format='%Y-%m-%d').dt.date
                 df_new_data['Evento'] = df_new_data['Evento'].astype(str)
                 print(df_new_data)
@@ -304,8 +306,8 @@ if pluvio_dates or basin_dates:
                 fig.add_traces(
                     list(px.line(df_new_data, x='Duracion (h)', y='Intensidad PP (mm)', color='Evento').select_traces())
                     )
-            except:
-                pass
+            #except:
+                #pass
         
     # --- STREAMLIT CHART
     
