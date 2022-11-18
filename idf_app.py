@@ -283,7 +283,8 @@ if pluvio_dates or basin_dates:
                    
             try:
                 df_new_data = pd.read_excel(uploaded_file, header = 0, index_col = 0)
-
+                # Borrar la columna Unnamed si existe
+                df_new_data = df_new_data.loc[:, ~df_new_data.columns.str.startswith('Unnamed')]  
                 df_new_data.rename(index={'PP max. 10 min (mm)': 0.167,
                             'PP max. 30 min (mm)': 0.5,
                              'PP max. 1 h (mm)': 1,
