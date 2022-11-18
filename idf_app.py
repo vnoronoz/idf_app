@@ -301,6 +301,7 @@ if pluvio_dates or basin_dates:
                 
                 df_new_data['Evento'] = pd.to_datetime(df_new_data['Evento'], errors='coerce', format='%Y-%m-%d').dt.date
                 df_new_data['Evento'] = df_new_data['Evento'].astype(str)
+                print(df_new_data)
                 
                 fig.add_traces(
                     list(px.line(df_new_data, x='Duracion (h)', y='Intensidad PP (mm)', color='Evento').select_traces())
