@@ -295,14 +295,13 @@ if pluvio_dates or basin_dates:
                              'PP max. 48 h (mm)': 48}, inplace=True)
                 df_new_data['Duracion (h)']=df_new_data.index
                 df_new_data = pd.melt(df_new_data, id_vars='Duracion (h)', value_vars=df_new_data.columns[:-1], var_name='Evento', value_name='Intensidad PP (mm)')
-                print(df_new_data)
+                
                 # Borrar la columna Unnamed si existe
                 df_new_data = df_new_data.loc[:, ~df_new_data.columns.str.startswith('Unnamed')]
-                print(df_new_data)
+                
                 df_new_data['Evento'] = pd.to_datetime(df_new_data['Evento'], format='%Y-%m-%d').dt.date
                 df_new_data['Evento'] = df_new_data['Evento'].astype(str)
-                print(df_new_data)
-
+                
                 fig.add_traces(
                     list(px.line(df_new_data, x='Duracion (h)', y='Intensidad PP (mm)', color='Evento').select_traces())
                     )
